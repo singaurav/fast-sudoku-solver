@@ -9,6 +9,10 @@ const int BOARD_FILE_COUNT = 9;
 
 const int DIGIT_STATES_MAX_COUNT = 46656;
 
+const int SQUARE_NONE = 81;
+
+const int DIGIT_COUNT = 9;
+
 typedef uint32_t BitBoard32;
 
 enum Digit : int {
@@ -16,18 +20,22 @@ enum Digit : int {
 };
 
 struct DigitState {
+    Digit digit;
+
     BitBoard32 ranks_123;
     BitBoard32 ranks_456;
     BitBoard32 ranks_789;
 };
 
 struct DigitStateList {
+    Digit digit;
+
     DigitState states[DIGIT_STATES_MAX_COUNT];
-    int count;
+    int count = 0;
 };
 
 struct Board {
-    int digit_at[BOARD_SQUARE_COUNT];
+    int digit_at[BOARD_SQUARE_COUNT] = {DIGIT_NONE};
 };
 
 #endif // #ifndef BOARD_INCLUDED

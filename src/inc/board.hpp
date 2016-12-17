@@ -37,7 +37,7 @@ struct DigitStateList {
 };
 
 struct Board {
-    int digit_at[BOARD_SQUARE_COUNT] = {DIGIT_NONE};
+    int digit_at[BOARD_SQUARE_COUNT];
 };
 
 #endif // #ifndef BOARD_INCLUDED

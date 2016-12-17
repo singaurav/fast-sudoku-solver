@@ -7,6 +7,7 @@ const int BOARD_SQUARE_COUNT = 81;
 const int BOARD_RANK_COUNT = 9;
 const int BOARD_FILE_COUNT = 9;
 const int BOARD_TRI_ROW_COUNT = 3;
+const int TRI_ROW_SQUARE_COUNT = 27;
 
 const int DIGIT_STATES_MAX_COUNT = 46656;
 

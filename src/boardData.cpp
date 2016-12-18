@@ -1,6 +1,6 @@
 #include "boardData.hpp"
 
-const BitBoard32 square_conflict_masks[BOARD_SQUARE_COUNT][BOARD_TRI_ROW_COUNT] = {
+const BitBoard32 SQUARE_CONFLICT_MASKS[BOARD_SQUARE_COUNT][BOARD_TRI_ROW_COUNT] = {
         { 0x07e3f001, 0x07fbfdfe, 0x07fbfdfe },
         { 0x07e3f002, 0x07f7fbfd, 0x07f7fbfd },
         { 0x07e3f004, 0x07eff7fb, 0x07eff7fb },

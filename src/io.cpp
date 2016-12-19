@@ -56,3 +56,9 @@ void print_tri_rows_bb(BitBoard32 tri_rows[]) {
 
     print_board(board, true);
 }
+
+void parse_string_notation(const char *sn, Board *board) {
+    for (int square = 0; square < BOARD_SQUARE_COUNT; ++square) {
+        board->digit_at[square] = sn[square] >= '1' && sn[square] <= '9' ? sn[square] - '1' : DIGIT_NONE;
+    }
+}

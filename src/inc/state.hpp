@@ -13,19 +13,19 @@ struct StateMask {
     BitBoard32 tri_rows[BOARD_TRI_ROW_COUNT];
 
     StateMask() {
-        for (int index = 0; index < BOARD_TRI_ROW_COUNT; ++index) {
-            tri_rows[index] = (1UL << TRI_ROW_SQUARE_COUNT) - 1;
-        }
+        tri_rows[0] = TRI_ROW_MASK;
+        tri_rows[1] = TRI_ROW_MASK;
+        tri_rows[2] = TRI_ROW_MASK;
     }
 
     void operator&=(const BitBoard32 mask_tri_rows[]) {
-        for (int index = 0; index < BOARD_TRI_ROW_COUNT; ++index) {
-            tri_rows[index] &= mask_tri_rows[index];
-        }
+        tri_rows[0] &= mask_tri_rows[0];
+        tri_rows[1] &= mask_tri_rows[1];
+        tri_rows[2] &= mask_tri_rows[2];
     }
 
     void unmask_square(int square) {
-        tri_rows[square / TRI_ROW_SQUARE_COUNT] &= (TRI_ROW_MASK & ~(1UL << (square % TRI_ROW_SQUARE_COUNT)));
+        tri_rows[TRI_ROW_FROM_SQUARE[square]] &= (TRI_ROW_MASK & ~(1UL << (square % TRI_ROW_SQUARE_COUNT)));
     }
 };
 

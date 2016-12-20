@@ -31,3 +31,9 @@ TEST_CASE("SQUARE_TRUCE_MASKS", "[boardData]") {
         }
     }
 }
+
+TEST_CASE("TRI_ROW_FROM_SQUARE", "[boardData]") {
+    for (int square = 0; square < BOARD_SQUARE_COUNT; ++square) {
+        REQUIRE(TRI_ROW_FROM_SQUARE[square] == (square / TRI_ROW_SQUARE_COUNT));
+    }
+}

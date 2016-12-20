@@ -167,3 +167,15 @@ const BitBoard32 SQUARE_TRUCE_MASKS[BOARD_SQUARE_COUNT][BOARD_TRI_ROW_COUNT] = {
         { 0x02010080, 0x02010080, 0x05ff81c0 },
         { 0x04020100, 0x04020100, 0x03ff81c0 }
 };
+
+extern const int TRI_ROW_FROM_SQUARE[BOARD_SQUARE_COUNT] = {
+        0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0,
+        1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1,
+        2, 2, 2, 2, 2, 2, 2, 2, 2,
+        2, 2, 2, 2, 2, 2, 2, 2, 2,
+        2, 2, 2, 2, 2, 2, 2, 2, 2
+};

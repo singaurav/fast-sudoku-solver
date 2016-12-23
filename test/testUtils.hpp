@@ -4,6 +4,7 @@
 #include "catch.hpp"
 #include "testData.hpp"
 
+#include "bitUtils.hpp"
 #include "board.hpp"
 #include "boardData.hpp"
 #include "io.hpp"

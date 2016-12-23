@@ -179,3 +179,27 @@ extern const int TRI_ROW_FROM_SQUARE[BOARD_SQUARE_COUNT] = {
         2, 2, 2, 2, 2, 2, 2, 2, 2,
         2, 2, 2, 2, 2, 2, 2, 2, 2
 };
+
+extern const int TRI_ROW_FROM_RANK[BOARD_RANK_COUNT] = {
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2
+};
+
+extern const BitBoard32 TRI_ROW_RANK_MASKS[BOARD_RANK_COUNT] = {
+        0x000001ff,
+        0x0003fe00,
+        0x07fc0000,
+        0x000001ff,
+        0x0003fe00,
+        0x07fc0000,
+        0x000001ff,
+        0x0003fe00,
+        0x07fc0000
+};

@@ -20,11 +20,17 @@ int main(int argc, char *argv[]) {
 
         parse_string_notation(buffer, board);
         calculate_state_masks(board);
-        
+
         print_board(board->digit_at, false);
 
+        calculate_state_lists(board);
+
         for (int d = ONE; d <= NINE; ++d) {
-            print_tri_rows_bb(board->digit_state_masks[d].tri_rows);
+            cout << d + 1 << " : " << board->digit_state_lists[d].state_list.size() << endl;
         }
+
+        print_board(board->digit_at, false);
+
+        reset_board(board);
     }
 }

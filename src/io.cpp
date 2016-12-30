@@ -1,5 +1,6 @@
 #include <iostream>
 #include "io.hpp"
+#include "board.hpp"
 
 using namespace std;
 
@@ -22,9 +23,9 @@ void print_board(int board[], bool bit_mode) {
                     int square = board_r * BOARD_FILE_COUNT + block_f * 3 + board_f;
 
                     if (bit_mode) {
-                        cout << board[square] << " ";
+                        cout << DIGIT_CHARS[(board[square] + DIGIT_COUNT) % (DIGIT_COUNT + 1)] << " ";                        
                     } else {
-					    cout << DIGIT_CHARS[board[square]] << " ";
+                        cout << DIGIT_CHARS[board[square]] << " ";
                     }
 				}
 			}
@@ -58,6 +59,8 @@ void print_tri_rows_bb(BitBoard32 tri_rows[]) {
 }
 
 void parse_string_notation(const char *sn, Board *board) {
+    reset_board(board);
+
     for (int square = 0; square < BOARD_SQUARE_COUNT; ++square) {
         board->digit_at[square] = sn[square] >= '1' && sn[square] <= '9' ? sn[square] - '1' : DIGIT_NONE;
     }

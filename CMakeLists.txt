@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8.8)
 project(fast_sudoku_solver)
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    set(CMAKE_CXX_FLAGS "-Wall -O -std=gnu++11")
+    set(CMAKE_CXX_FLAGS "-Wall -O3 -std=gnu++11")
 endif()
 
 add_subdirectory(src)

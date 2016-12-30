@@ -2,6 +2,7 @@
 #include "board.hpp"
 #include "boardData.hpp"
 #include "state.hpp"
+#include <algorithm>
 
 void calculate_state_masks(Board *board) {
     for (int square = 0; square < BOARD_SQUARE_COUNT; ++square) {
@@ -21,7 +22,7 @@ void calculate_state_masks(Board *board) {
 
 void calculate_digit_state_list(Board *board, int digit, StateMask *state_mask, int rank) {
     if (rank == DIGIT_COUNT) {
-        board->digit_state_lists[digit].state_list.push_back(new State(state_mask));
+        board->digit_state_lists[digit].add_state_node(new StateNode(state_mask, digit));
     } else {
         BitBoard32 rank_bb = state_mask->get_rank_bb(rank) & board->digit_state_masks[digit].get_rank_bb(rank);
 

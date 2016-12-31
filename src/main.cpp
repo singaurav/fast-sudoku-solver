@@ -19,12 +19,12 @@ int main(int argc, char *argv[]) {
 
     if (argc > 1) {
         fd = fopen(argv[1], "r");
-		if (!fd) {
-			printf("Error while reading: '%s'\n", argv[1]);
-			return(1);
-		}
-	}
-	else {
+        if (!fd) {
+            printf("Error while reading: '%s'\n", argv[1]);
+            return(1);
+        }
+    }
+    else {
         fd = stdin;
     }
 

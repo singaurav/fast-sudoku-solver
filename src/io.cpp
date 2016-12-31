@@ -7,32 +7,32 @@ using namespace std;
 void print_board(int board[], bool bit_mode) {
     cout << endl;
 
-	string space = "    ";
+    string space = "    ";
 
-	for (int print_r = 0; print_r < BOARD_RANK_COUNT + BOARD_TRI_ROW_COUNT + 1; ++print_r) {
-		cout << space;
+    for (int print_r = 0; print_r < BOARD_RANK_COUNT + BOARD_TRI_ROW_COUNT + 1; ++print_r) {
+        cout << space;
 
-		if (print_r % (BOARD_TRI_ROW_COUNT + 1) == 0) {
-			cout << "+-------+-------+-------+" << endl;
-		} else {
-			int board_r = print_r - print_r / (BOARD_TRI_ROW_COUNT + 1) - 1;
+        if (print_r % (BOARD_TRI_ROW_COUNT + 1) == 0) {
+            cout << "+-------+-------+-------+" << endl;
+        } else {
+            int board_r = print_r - print_r / (BOARD_TRI_ROW_COUNT + 1) - 1;
 
-			for (int block_f = 0; block_f < 3; ++block_f) {
-				cout << "| ";
-				for (int board_f = 0; board_f < 3; ++board_f) {
+            for (int block_f = 0; block_f < 3; ++block_f) {
+                cout << "| ";
+                for (int board_f = 0; board_f < 3; ++board_f) {
                     int square = board_r * BOARD_FILE_COUNT + block_f * 3 + board_f;
 
                     if (bit_mode) {
-                        cout << DIGIT_CHARS[(board[square] + DIGIT_COUNT) % (DIGIT_COUNT + 1)] << " ";                        
+                        cout << DIGIT_CHARS[(board[square] + DIGIT_COUNT) % (DIGIT_COUNT + 1)] << " ";
                     } else {
                         cout << DIGIT_CHARS[board[square]] << " ";
                     }
-				}
-			}
+                }
+            }
 
-			cout << "|" << endl;
-		}
-	}
+            cout << "|" << endl;
+        }
+    }
 }
 
 void print_tri_rows_bb(BitBoard32 tri_rows[]) {

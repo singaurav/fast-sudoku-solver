@@ -1,5 +1,5 @@
 ## Overview
-A fast __Sudoku__ solver written in __C++__ that uses a simple and efficient non-traditional backtracking approach to solve the popular logic puzzle.
+A fast __Sudoku__ solver written in __C++__ that uses a simple and efficient non-traditional backtracking approach to solve the popular logic puzzle. The project is in an early stage and more documentation will follow. 
 
 ## Getting started
 * #### Requirements

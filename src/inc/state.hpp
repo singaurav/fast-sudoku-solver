@@ -2,6 +2,8 @@
 #define STATE_INCLUDED
 
 #include "boardData.hpp"
+#include "option.hpp"
+#include "board.hpp"
 
 struct StateMask {
     BitBoard32 tri_rows[BOARD_TRI_ROW_COUNT];
@@ -126,6 +128,12 @@ struct StateListPartitioned {
     void set_first_partition(StateList* state_list) {
         partitions[0] = state_list;
     }
+
+    void reset() {
+        for (int index = 0; index < DIGIT_COUNT; ++index) {
+            delete partitions[index];
+        }
+    }
 };
 
 struct SolveOutput {
@@ -199,7 +207,5 @@ inline void attach(StateListPartitioned state_lists[], int beg_index) {
         state_lists[index].partitions[0]->add_state_list(state_lists[index].partitions[beg_index]);
     }
 }
-
-void solve(StateList state_list[], SolveOutput *solve_output);
 
 #endif // #ifndef STATE_INCLUDED

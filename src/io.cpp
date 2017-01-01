@@ -65,3 +65,15 @@ void parse_string_notation(const char *sn, Board *board) {
         board->digit_at[square] = sn[square] >= '1' && sn[square] <= '9' ? sn[square] - '1' : DIGIT_NONE;
     }
 }
+
+char* get_string_notation(const Board *board) {
+    static char sn[BOARD_SQUARE_COUNT + 1];
+
+    for (int square = 0; square < BOARD_SQUARE_COUNT; ++square) {
+        sn[square] = DIGIT_CHARS[board->digit_at[square]];
+    }
+
+    sn[BOARD_SQUARE_COUNT] = '\0';
+
+    return sn;
+}

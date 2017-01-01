@@ -19,5 +19,6 @@ void calculate_state_masks(Board *board);
 void calculate_digit_state_list(Board *board, int digit, StateMask *state_mask, int rank);
 void calculate_state_lists(Board *board);
 void reset_board(Board *board);
+void solve(Board *board, SolveOutput *solve_output, Option *option);
 
 #endif // #ifndef BOARD_INCLUDED

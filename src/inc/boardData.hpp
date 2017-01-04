@@ -26,4 +26,12 @@ extern const int TRI_ROW_FROM_RANK[BOARD_RANK_COUNT];
 extern const BitBoard32 TRI_ROW_RANK_MASKS[BOARD_RANK_COUNT];
 extern const BitBoard32 INTERSEC_MASKS[BOARD_INTERSEC_COUNT];
 
+inline int inter_mask_tri_row_index(BitBoard32 intersec_mask) {
+    return intersec_mask >> TRI_ROW_SQUARE_COUNT;
+}
+
+inline BitBoard32 inter_mask_tri_row_mask(BitBoard32 intersec_mask) {
+    return intersec_mask & TRI_ROW_MASK;
+}
+
 #endif // #ifndef BOARD_DATA_INCLUDED

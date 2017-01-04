@@ -66,7 +66,12 @@ TEST_CASE("INTERSEC_MASKS", "[boardData]") {
                 }
 
                 REQUIRE(1 == h_count);
+                REQUIRE(inter_mask_tri_row_index(intersec_h_mask) == (tri_row_mask >>  TRI_ROW_SQUARE_COUNT));
+                REQUIRE(inter_mask_tri_row_mask(intersec_h_mask) == tri_square_h_mask);
+
                 REQUIRE(1 == v_count);
+                REQUIRE(inter_mask_tri_row_index(intersec_v_mask) == (tri_row_mask >> TRI_ROW_SQUARE_COUNT));
+                REQUIRE(inter_mask_tri_row_mask(intersec_v_mask) == tri_square_v_mask);
             }
         }
     }

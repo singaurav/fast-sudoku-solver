@@ -27,7 +27,7 @@ void calculate_digit_state_list(Board *board, int digit, StateMask *state_mask, 
         BitBoard32 rank_bb = state_mask->get_rank_bb(rank) & board->digit_state_masks[digit].get_rank_bb(rank);
 
         while(rank_bb) {
-            int square = TRI_ROW_SQUARE_COUNT * TRI_ROW_FROM_RANK[rank] + pop_bit(&rank_bb);
+            int square = TRI_ROW_SQUARE_COUNT * TRI_ROW_FROM_RANK[rank] + pop_bit_32(&rank_bb);
 
             BitBoard32 undo_tri_rows[BOARD_TRI_ROW_COUNT];
             undo_tri_rows[0] = state_mask->tri_rows[0] & SQUARE_TRUCE_MASKS[square][0];
@@ -70,7 +70,7 @@ void write_sol(StateNode* sol_states[], Board *board) {
             BitBoard32 tri_row = sol_states[index]->tri_rows[tri_row_index];
 
             while (tri_row) {
-                int tri_row_square = pop_bit(&tri_row);
+                int tri_row_square = pop_bit_32(&tri_row);
                 board->digit_at[tri_row_index * TRI_ROW_SQUARE_COUNT + tri_row_square] = sol_states[index]->digit;
             }
         }
@@ -79,13 +79,13 @@ void write_sol(StateNode* sol_states[], Board *board) {
         last_digit_state_mask ^= sol_states[index]->tri_rows;
     }
 
-    int last_digit = pop_bit(&last_digit_mask);
+    int last_digit = pop_bit_32(&last_digit_mask);
 
     for (int tri_row_index = 0; tri_row_index < 3; ++tri_row_index) {
         BitBoard32 tri_row = last_digit_state_mask.tri_rows[tri_row_index];
 
         while (tri_row) {
-            int tri_row_square = pop_bit(&tri_row);
+            int tri_row_square = pop_bit_32(&tri_row);
             board->digit_at[tri_row_index * TRI_ROW_SQUARE_COUNT + tri_row_square] = last_digit;
         }
     }

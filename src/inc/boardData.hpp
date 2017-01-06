@@ -16,6 +16,7 @@ const int SQUARE_NONE = 81;
 const int DIGIT_COUNT = 9;
 
 typedef uint32_t BitBoard32;
+typedef uint64_t BitBoard64;
 
 const BitBoard32 TRI_ROW_MASK = (1UL << TRI_ROW_SQUARE_COUNT) - 1;
 

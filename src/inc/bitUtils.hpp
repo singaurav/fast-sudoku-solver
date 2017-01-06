@@ -3,6 +3,7 @@
 
 #include "boardData.hpp"
 
-int pop_bit(BitBoard32 *bb);
+int pop_bit_32(BitBoard32 *bb);
+int pop_bit_64(BitBoard64 *bb);
 
 #endif // #ifndef BIT_UTILS_INCLUDED

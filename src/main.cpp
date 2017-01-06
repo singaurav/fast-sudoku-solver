@@ -6,6 +6,7 @@
 #include "misc.hpp"
 #include "io.hpp"
 #include "option.hpp"
+#include "pre.hpp"
 
 using namespace std;
 
@@ -28,7 +29,6 @@ int main(int argc, char *argv[]) {
     int count = 0;
     int count_one_sol = 0, count_multi_sol = 0, count_no_sol = 0;
     int start_time_ms = get_time_ms();
-    int nodes_searched = 0;
 
     while (fgets(buffer, buffer_size, option->fd) != nullptr) {
         if (strlen(buffer) < BOARD_SQUARE_COUNT) {
@@ -38,6 +38,9 @@ int main(int argc, char *argv[]) {
         parse_string_notation(buffer, board);
 
         calculate_state_masks(board);
+
+        locked_candidates(board);
+
         calculate_state_lists(board);
 
         solve(board, solve_output, option);
@@ -48,8 +51,6 @@ int main(int argc, char *argv[]) {
             default: count_multi_sol += 1; break;
         }
 
-        nodes_searched = solve_output->nodes_searched;
-
         count += 1;
     }
 
@@ -58,8 +59,6 @@ int main(int argc, char *argv[]) {
     if(time_taken_ms < 1) {
         time_taken_ms = 1;
     }
-
-    printf("nodes searched: %d\n", nodes_searched);
 
     printf("   input puzzles > %d\n", count);
     printf(" puzzles by type > exactly one solution: %d, muliple solutions: %d, no solutions: %d\n",

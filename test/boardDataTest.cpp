@@ -151,3 +151,24 @@ TEST_CASE("INTERSEC_BOX_NEIGHBOURS", "[boardData]") {
         REQUIRE(found);
     }
 }
+
+TEST_CASE("INTERSEC_NEIGHBOURS_NEIGHBOURS", "[boardData]") {
+    for (int index = 0; index < BOARD_INTERSEC_COUNT; ++index) {
+        for (int nn = 0; nn < INTERSEC_NEIGHBOURS_NEIGHBOURS_COUNT; ++nn) {
+            int nn_index = INTERSEC_NEIGHBOURS_NEIGHBOURS[index][nn];
+
+            REQUIRE(nn_index / 3 != index / 3);
+            REQUIRE(nn_index % 3 != index % 3);
+
+            if (index < BOARD_INTERSEC_COUNT / 2) {
+                REQUIRE(nn_index / 9 == index / 9);
+            } else {
+                REQUIRE((nn_index % 9) / 3 == (index % 9) / 3);
+            }
+
+            for (int nn_1 = 0; nn_1 < nn; ++nn_1) {
+                REQUIRE(INTERSEC_NEIGHBOURS_NEIGHBOURS[index][nn_1] != nn_index);
+            }
+        }
+    }
+}

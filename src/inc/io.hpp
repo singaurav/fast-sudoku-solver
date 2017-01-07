@@ -12,5 +12,6 @@ void print_board(int digit_at[], bool bit_mode);
 void print_tri_rows_bb(BitBoard32 tri_rows[]);
 void parse_string_notation(const char *sn, Board *board);
 char* get_string_notation(const Board *board);
+void parse_string_notation_tri_rows(const char* sn, BitBoard32 tri_rows[]);
 
 #endif // #ifndef IO_INCLUDED

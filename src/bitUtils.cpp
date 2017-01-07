@@ -18,6 +18,12 @@ int pop_bit_32(BitBoard32 *bb) {
     return pos;
 }
 
+int count_bits_32(BitBoard32 b) {
+    int r;
+    for (r = 0; b; r++, b &= b - 1);
+    return r;
+}
+
 int pop_bit_64(BitBoard64 *bb) {
     BitBoard64 b = *bb ^ (*bb - 1);
     unsigned int fold = (unsigned) ((b & 0xffffffff) ^ (b >> 32));

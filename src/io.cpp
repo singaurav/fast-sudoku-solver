@@ -77,3 +77,17 @@ char* get_string_notation(const Board *board) {
 
     return sn;
 }
+
+void parse_string_notation_tri_rows(const char* sn, BitBoard32 tri_rows[]) {
+    for (int square = 0; square < BOARD_SQUARE_COUNT; ++square) {
+        if (sn[square] == '1') {
+            tri_rows[square / TRI_ROW_SQUARE_COUNT] |= (1UL << (square % TRI_ROW_SQUARE_COUNT));
+        } else {
+            tri_rows[square / TRI_ROW_SQUARE_COUNT] &= ~(1UL << (square % TRI_ROW_SQUARE_COUNT));
+        }
+    }
+
+    tri_rows[0] &= TRI_ROW_MASK;
+    tri_rows[1] &= TRI_ROW_MASK;
+    tri_rows[2] &= TRI_ROW_MASK;
+}

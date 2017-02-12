@@ -3,10 +3,9 @@
 #include <string.h>
 
 #include "board.hpp"
-#include "misc.hpp"
 #include "io.hpp"
+#include "misc.hpp"
 #include "option.hpp"
-#include "pre.hpp"
 
 using namespace std;
 
@@ -14,7 +13,6 @@ int main(int argc, char *argv[]) {
     int buffer_size = 1024;
     char buffer[buffer_size];
 
-    Board board[1];
     SolveOutput solve_output[1];
     Option option[1];
 
@@ -35,20 +33,23 @@ int main(int argc, char *argv[]) {
             continue;
         }
 
-        parse_string_notation(buffer, board);
+        Board board = buffer;
 
-        calculate_state_masks(board);
-
-        locked_candidates(board);
-
+        solve_singles(board);
         calculate_state_lists(board);
 
         solve(board, solve_output, option);
 
-        switch(solve_output->sol_count) {
-            case 1: count_one_sol += 1; break;
-            case 0: count_no_sol += 1; break;
-            default: count_multi_sol += 1; break;
+        switch (solve_output->sol_count) {
+        case 1:
+            count_one_sol += 1;
+            break;
+        case 0:
+            count_no_sol += 1;
+            break;
+        default:
+            count_multi_sol += 1;
+            break;
         }
 
         count += 1;
@@ -56,12 +57,14 @@ int main(int argc, char *argv[]) {
 
     int time_taken_ms = get_time_ms() - start_time_ms;
 
-    if(time_taken_ms < 1) {
+    if (time_taken_ms < 1) {
         time_taken_ms = 1;
     }
 
     printf("   input puzzles > %d\n", count);
-    printf(" puzzles by type > exactly one solution: %d, muliple solutions: %d, no solutions: %d\n",
+    printf(
+        " puzzles by type > exactly one solution: %d, muliple solutions: %d, "
+        "no solutions: %d\n",
         count_one_sol, count_multi_sol, count_no_sol);
     printf("  time takes(ms) > %d\n", time_taken_ms);
     printf(" puzzles per sec > %d\n", (count * 1000) / time_taken_ms);

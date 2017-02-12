@@ -1,64 +1,16 @@
 #ifndef STATE_INCLUDED
 #define STATE_INCLUDED
 
-#include "boardData.hpp"
-#include "option.hpp"
-#include "board.hpp"
-
-struct StateMask {
-    BitBoard32 tri_rows[BOARD_TRI_ROW_COUNT];
-
-    StateMask() {
-        reset();
-    }
-
-    void clear() {
-        tri_rows[0] = 0UL;
-        tri_rows[1] = 0UL;
-        tri_rows[2] = 0UL;
-    }
-
-    void reset() {
-        tri_rows[0] = TRI_ROW_MASK;
-        tri_rows[1] = TRI_ROW_MASK;
-        tri_rows[2] = TRI_ROW_MASK;
-    }
-
-    void operator&=(const BitBoard32 mask_tri_rows[]) {
-        tri_rows[0] &= mask_tri_rows[0];
-        tri_rows[1] &= mask_tri_rows[1];
-        tri_rows[2] &= mask_tri_rows[2];
-    }
-
-    void operator^=(const BitBoard32 mask_tri_rows[]) {
-        tri_rows[0] ^= mask_tri_rows[0];
-        tri_rows[1] ^= mask_tri_rows[1];
-        tri_rows[2] ^= mask_tri_rows[2];
-    }
-
-    void unmask_square(int square) {
-        tri_rows[TRI_ROW_FROM_SQUARE[square]] &= (TRI_ROW_MASK & ~(1UL << (square % TRI_ROW_SQUARE_COUNT)));
-    }
-
-    BitBoard32 get_rank_bb(int rank) {
-        return (tri_rows[TRI_ROW_FROM_RANK[rank]] & TRI_ROW_RANK_MASKS[rank]);
-    }
-};
-
 struct StateNode {
-    BitBoard32 tri_rows[BOARD_TRI_ROW_COUNT];
+    BitBoard81 state;
     int digit;
-    StateNode* next;
+    StateNode *next;
 
-    StateNode() {
-        next = nullptr;
-    }
+    StateNode() { next = nullptr; }
 
-    StateNode(StateMask *state_mask, int d) {
+    StateNode(const BitBoard81 &mask, int d) {
         digit = d;
-        tri_rows[0] = state_mask->tri_rows[0];
-        tri_rows[1] = state_mask->tri_rows[1];
-        tri_rows[2] = state_mask->tri_rows[2];
+        state = mask;
         next = nullptr;
     }
 };
@@ -73,40 +25,40 @@ struct StateList {
         size = 0;
     }
 
-    void add_state_node(StateNode *state_node) {
-        if (size  < 1) {
-            beg = end = state_node;
+    void add_state_node(StateNode *node) {
+        if (size < 1) {
+            beg = end = node;
             size = 1;
         } else {
-            end->next = state_node;
-            end = state_node;
+            end->next = node;
+            end = node;
             size += 1;
         }
     }
 
-    void add_state_list(StateList *state_list_other) {
-        if (state_list_other->size > 0) {
+    void add_state_list(StateList *other) {
+        if (other->size > 0) {
             if (size < 1) {
-                beg = state_list_other->beg;
-                end = state_list_other->end;
-                size = state_list_other->size;
+                beg = other->beg;
+                end = other->end;
+                size = other->size;
             } else {
-                end->next = state_list_other->beg;
-                end = state_list_other->end;
-                size += state_list_other->size;
+                end->next = other->beg;
+                end = other->end;
+                size += other->size;
             }
         }
 
-        state_list_other->beg = nullptr;
-        state_list_other->end = nullptr;
-        state_list_other->size = 0;
+        other->beg = nullptr;
+        other->end = nullptr;
+        other->size = 0;
     }
 
     void reset() {
-        StateNode* it = beg;
+        StateNode *it = beg;
 
         while (it != nullptr) {
-            StateNode* next = it->next;
+            StateNode *next = it->next;
             delete it;
             it = next;
         }
@@ -117,21 +69,19 @@ struct StateList {
 };
 
 struct StateListPartitioned {
-    StateList* partitions[DIGIT_COUNT];
+    StateList *parts[DIGIT_COUNT];
 
     StateListPartitioned() {
-        for (int index = 0; index < DIGIT_COUNT; ++index) {
-            partitions[index] = new StateList();
+        for (int i = 0; i < DIGIT_COUNT; ++i) {
+            parts[i] = new StateList();
         }
     }
 
-    void set_first_partition(StateList* state_list) {
-        partitions[0] = state_list;
-    }
+    void set_first_part(StateList *list) { parts[0] = list; }
 
     void reset() {
-        for (int index = 0; index < DIGIT_COUNT; ++index) {
-            delete partitions[index];
+        for (int i = 0; i < DIGIT_COUNT; ++i) {
+            parts[i]->reset();
         }
     }
 };
@@ -141,70 +91,71 @@ struct SolveOutput {
     int nodes_searched;
 };
 
-inline void flip_min_size_partition(StateListPartitioned state_lists[], int beg_index) {
+inline void flip_min_size_part(StateListPartitioned lists[], int beg_index) {
     int min_size_index = -1;
     int min_size = 100000;
 
     for (int index = beg_index; index < DIGIT_COUNT; ++index) {
-        if (state_lists[index].partitions[0]->size < min_size) {
-            min_size = state_lists[index].partitions[0]->size;
+        if (lists[index].parts[0]->size < min_size) {
+            min_size = lists[index].parts[0]->size;
             min_size_index = index;
         }
     }
 
     if (min_size_index != beg_index) {
-        StateListPartitioned t = state_lists[min_size_index];
-        state_lists[min_size_index] = state_lists[beg_index];
-        state_lists[beg_index] = t;
+        StateListPartitioned t = lists[min_size_index];
+        lists[min_size_index] = lists[beg_index];
+        lists[beg_index] = t;
     }
 }
 
-inline bool tri_row_conflict(BitBoard32 tri_rows1[], BitBoard32 tri_rows2[]) {
-    return  (tri_rows1[0] & tri_rows2[0]) ||
-            (tri_rows1[1] & tri_rows2[1]) ||
-            (tri_rows1[2] & tri_rows2[2]);
+inline bool conflict(const BitBoard81 &a, const BitBoard81 &b) {
+    return (a.bits27[0] & b.bits27[0]) || (a.bits27[1] & b.bits27[1]) ||
+           (a.bits27[2] & b.bits27[2]);
 }
 
-inline void partition(StateNode *state, StateListPartitioned state_lists[], int beg_index) {
+inline void partition(StateNode *node, StateListPartitioned lists[],
+                      int beg_index) {
     for (int index = beg_index; index < DIGIT_COUNT; ++index) {
-        if (state_lists[index].partitions[0]->size > 0) {
-            StateNode* it1 = state_lists[index].partitions[0]->beg;
-            StateNode* it2 = it1->next;
+        if (lists[index].parts[0]->size > 0) {
+            StateNode *it1 = lists[index].parts[0]->beg;
+            StateNode *it2 = it1->next;
 
             while (it2 != nullptr) {
-                if (tri_row_conflict(state->tri_rows, it2->tri_rows)) {
+                if (conflict(node->state, it2->state)) {
                     it1->next = it2->next;
                     it2->next = nullptr;
-                    state_lists[index].partitions[beg_index]->add_state_node(it2);
+                    lists[index].parts[beg_index]->add_state_node(it2);
                     it2 = it1->next;
-                    state_lists[index].partitions[0]->size -= 1;
+                    lists[index].parts[0]->size -= 1;
                 } else {
                     it1 = it2;
                     it2 = it2->next;
                 }
             }
 
-            state_lists[index].partitions[0]->end = it1;
+            lists[index].parts[0]->end = it1;
 
-            if (tri_row_conflict(state->tri_rows, state_lists[index].partitions[0]->beg->tri_rows)) {
-                StateNode* new_beg = state_lists[index].partitions[0]->beg->next;
-                state_lists[index].partitions[0]->beg->next = nullptr;
-                state_lists[index].partitions[beg_index]->add_state_node(state_lists[index].partitions[0]->beg);
-                state_lists[index].partitions[0]->beg = new_beg;
+            if (conflict(node->state, lists[index].parts[0]->beg->state)) {
+                StateNode *new_beg = lists[index].parts[0]->beg->next;
+                lists[index].parts[0]->beg->next = nullptr;
+                lists[index].parts[beg_index]->add_state_node(
+                    lists[index].parts[0]->beg);
+                lists[index].parts[0]->beg = new_beg;
 
                 if (new_beg == nullptr) {
-                    state_lists[index].partitions[0]->end = nullptr;
+                    lists[index].parts[0]->end = nullptr;
                 }
 
-                state_lists[index].partitions[0]->size -= 1;
+                lists[index].parts[0]->size -= 1;
             }
         }
     }
 }
 
-inline void attach(StateListPartitioned state_lists[], int beg_index) {
+inline void attach(StateListPartitioned lists[], int beg_index) {
     for (int index = beg_index; index < DIGIT_COUNT; ++index) {
-        state_lists[index].partitions[0]->add_state_list(state_lists[index].partitions[beg_index]);
+        lists[index].parts[0]->add_state_list(lists[index].parts[beg_index]);
     }
 }
 

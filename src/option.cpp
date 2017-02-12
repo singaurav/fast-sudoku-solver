@@ -1,13 +1,13 @@
-#include <string>
-#include <iostream>
-#include <cstdlib>
 #include "option.hpp"
+#include <cstdlib>
+#include <iostream>
+#include <string>
 
 using namespace std;
 
 bool parse_command_line(int argc, char *argv[], Option *option) {
     string default_message =
-R"(Fast Sudoku Solver by Gaurav Singh
+        R"(Fast Sudoku Solver by Gaurav Singh
     Usage: sudoku [options]
            sudoku [options] sourcefile
         Options: -h     Show this message

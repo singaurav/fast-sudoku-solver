@@ -25,7 +25,3 @@ bool conflict(int square_1, int square_2) {
 
     return false;
 }
-
-bool is_tri_rows_square_set(BitBoard32 tri_rows[], int square) {
-    return (tri_rows[TRI_ROW_FROM_SQUARE[square]] & (1UL << (square % TRI_ROW_SQUARE_COUNT))) != 0UL;
-}

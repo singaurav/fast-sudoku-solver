@@ -77,11 +77,12 @@ struct StateListPartitioned {
         }
     }
 
-    void set_first_part(StateList *list) { parts[0] = list; }
+    void set_first_part(StateList *list) { parts[0]->add_state_list(list); }
 
     void reset() {
         for (int i = 0; i < DIGIT_COUNT; ++i) {
             parts[i]->reset();
+            delete parts[i];
         }
     }
 };

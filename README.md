@@ -1,5 +1,5 @@
 ## Overview
-[![Build Status](https://travis-ci.org/singaurav/fast_sudoku_solver.svg?branch=master)](https://travis-ci.org/singaurav/fast_sudoku_solver)
+[![Build Status](https://travis-ci.org/singaurav/fast-sudoku-solver.svg?branch=master)](https://travis-ci.org/singaurav/fast-sudoku-solver)
 
 A fast __Sudoku__ solver written in __C++__ that uses a simple and efficient non-traditional backtracking approach to solve the popular logic puzzle. The project is in an early stage and more documentation will follow.
 

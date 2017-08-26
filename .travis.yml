@@ -17,8 +17,20 @@ matrix:
       env:
         - COMPILER=clang++-3.6
 
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
+            - cmake
+      env:
+        - COMPILER=g++-6
+
 before_script:
-  - clang++-3.6 --version
+  - $COMPILER --version
   - cmake --version
   - mkdir fast-sudoku-solver-build
 

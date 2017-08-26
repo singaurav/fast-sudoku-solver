@@ -1,0 +1,29 @@
+language: cpp
+sudo: required
+dist: trusty
+
+matrix:
+  include:
+    - os: linux
+      compiler: clang
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.6
+          packages:
+            - clang-3.6
+            - cmake
+      env:
+        - COMPILER=clang++-3.6
+
+before_script:
+  - clang++-3.6 --version
+  - cmake --version
+  - mkdir fast-sudoku-solver-build
+
+script:
+  - cd fast-sudoku-solver-build
+  - cmake -DCMAKE_CXX_COMPILER=$COMPILER ..
+  - make
+  - test/sudokuTest

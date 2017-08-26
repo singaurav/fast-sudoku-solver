@@ -4,6 +4,8 @@ project(fast_sudoku_solver)
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     set(CMAKE_CXX_FLAGS "-Wall -O3 -std=gnu++11")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    set(CMAKE_CXX_FLAGS "-Wall -O3 -std=c++11")
 endif()
 
 add_subdirectory(src)

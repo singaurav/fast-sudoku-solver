@@ -3,9 +3,9 @@
 
 #include <initializer_list>
 #include <iterator>
+#include <cstdlib>
 
-typedef unsigned long BitBoard32;
-typedef unsigned long long BitBoard64;
+typedef uint32_t BitBoard32;
 
 struct BitBoard81 {
     BitBoard32 bits27[3];

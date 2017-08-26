@@ -1,15 +1,16 @@
 #include "testUtils.hpp"
+#include <iostream>
 
 TEST_CASE("pop_bit_32", "[bitUtils]") {
     BitBoard32 bb = 1UL;
     REQUIRE(0 == pop_bit_32(&bb));
-    REQUIRE(0UL == bb);
+    REQUIRE(!bb);
 
     bb = (1UL << 31);
     REQUIRE(31 == pop_bit_32(&bb));
-    REQUIRE(0UL == bb);
+    REQUIRE(!bb);
 
-    bb = ~(0UL);
+    bb = 0xFFFFFFFF;
     int bit_pos = 0;
     while (bb) {
         REQUIRE(pop_bit_32(&bb) == bit_pos++);

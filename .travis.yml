@@ -40,3 +40,4 @@ script:
   - make
   - test/sudokuTest
   - src/sudoku 1465.txt
+  - src/sudoku sudoku17.txt
